@@ -59,15 +59,40 @@ Temps GPU (optimisé)         : 0.0166s
 
 ## Comment l'exécuter
 
-Ce projet est conçu pour être exécuté dans un environnement disposant d'un **GPU Nvidia et de CUDA.**
+Ce projet est conçu pour être exécuté dans un environnement disposant d'un GPU Nvidia et de CUDA.
 
-### 1. En local (avec un GPU Nvidia) :
-- Clonez ce dépôt.
-- Installez les dépendances : `pip install -r requirements.txt`
-- Lancez le script principal : `python main.py`
+### Méthode 1 : En local (si vous avez un GPU Nvidia)
 
-### 2. Sur Google Colab (recommandé) :
-- Ouvrez un nouveau notebook.
-- Allez dans `Runtime` -> `Change runtime type` et sélectionnez `GPU`.
-- Créez des fichiers dans le panneau de gauche de Colab pour chaque module (`cpu_pi.py`, `gpu_pi_batch.py`, etc.) et copiez-y le code correspondant.
-- Dans une cellule du notebook, lancez le script principal avec la commande : `!python main.py`
+1.  Clonez ce dépôt sur votre machine :
+    ```bash
+    git clone https://github.com/Juba451/cpu-vs-gpu-pi-estimation.git
+    cd cpu-vs-gpu-pi-estimation
+    ```
+2.  Installez les dépendances nécessaires :
+    ```bash
+    pip install -r requirements.txt
+    ```
+3.  Lancez le script principal :
+    ```bash
+    python main.py
+    ```
+
+### Méthode 2 : Sur Google Colab (recommandé et gratuit)
+
+Cette méthode vous permet de faire tourner le projet directement depuis GitHub.
+
+1.  Ouvrez un [nouveau notebook sur Google Colab](https://colab.research.google.com).
+2.  **Activez le GPU :** Allez dans `Runtime` -> `Change runtime type` et sélectionnez `GPU` comme "Hardware accelerator".
+3.  Dans une seule cellule de code, copiez-collez les commandes suivantes pour cloner le projet et l'exécuter :
+
+    ```python
+    # 1. Cloner le dépôt GitHub
+    !git clone https://github.com/Juba451/cpu-vs-gpu-pi-estimation.git
+
+    # 2. Se déplacer dans le dossier du projet
+    %cd cpu-vs-gpu-pi-estimation
+
+    # 3. Installer les dépendances et lancer le script principal
+    !pip install -r requirements.txt && python main.py
+    ```
+4.  Exécutez la cellule. Les résultats s'afficheront directement dans la sortie.

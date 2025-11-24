@@ -96,3 +96,6 @@ Cette méthode vous permet de faire tourner le projet directement depuis GitHub.
     !pip install -r requirements.txt && python main.py
     ```
 4.  Exécutez la cellule. Les résultats s'afficheront directement dans la sortie.
+
+
+this is some text i added

@@ -1,5 +1,5 @@
 # gpu_pi_batch.py
-# minor comment - change 
+
 import time
 
 try:

@@ -5,7 +5,7 @@ import time
 
 def estimate_pi_cpu_loop(n_points):
     """
-    Estime Pi sur le CPU.
+    Estime Pi en utilisant une boucle for simple sur le CPU.
     C'est la méthode la plus lente (séquentielle).
     """
     print(f"--- 1. Calcul sur CPU avec une boucle for sur {n_points:,} points ---")

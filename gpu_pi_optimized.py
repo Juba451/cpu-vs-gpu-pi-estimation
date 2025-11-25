@@ -7,7 +7,6 @@ try:
 except ImportError:
     pass
 
-# On définit le kernel en dehors de la fonction pour ne le compiler qu'une fois
 try:
     cuda_kernel = cp.RawKernel(r'''
     extern "C" __global__

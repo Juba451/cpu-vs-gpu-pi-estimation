@@ -4,10 +4,6 @@ import time
 
 try:
     import cupy as cp
-except ImportError:
-    pass
-
-try:
     cuda_kernel = cp.RawKernel(r'''
     extern "C" __global__
     void monte_carlo_pi(const float* x, const float* y, unsigned long long* counter, int n) {
@@ -19,21 +15,19 @@ try:
         }
     }
     ''', 'monte_carlo_pi')
-except NameError:
+except (ImportError, NameError):
     cuda_kernel = None
 
 def estimate_pi_gpu_optimized(n_points):
     """
-    Estime Pi en utilisant un kernel CUDA optimisé pour le GPU.
+    Estime Pi sur GPU avec un kernel CUDA optimisé.
+    Retourne l'estimation et le temps de calcul.
     """
-    print(f"\n--- 3. Calcul sur GPU Optimisé avec un Kernel CUDA sur {n_points:,} points ---")
-    
     if cuda_kernel is None:
-        print("Erreur : CuPy n'est pas installé ou un GPU n'est pas disponible.")
-        return float('inf')
+        return None, float('inf')
 
     cp.cuda.runtime.deviceSynchronize()
-    start_time = time.time()
+    start_time = time.perf_counter()
     
     x = cp.random.rand(n_points, dtype=cp.float32)
     y = cp.random.rand(n_points, dtype=cp.float32)
@@ -47,10 +41,7 @@ def estimate_pi_gpu_optimized(n_points):
     pi_estimate = 4 * counter[0] / n_points
     
     cp.cuda.runtime.deviceSynchronize()
-    end_time = time.time()
-    
+    end_time = time.perf_counter()
     gpu_opt_time = end_time - start_time
     
-    print(f"Estimation de π (GPU Optimisé) ≈ {float(pi_estimate):.6f}")
-    print(f"Temps de calcul (GPU Optimisé) : {gpu_opt_time:.4f} secondes")
-    return gpu_opt_time
+    return pi_estimate, gpu_opt_time

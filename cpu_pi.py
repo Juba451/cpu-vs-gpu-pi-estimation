@@ -1,29 +1,26 @@
 # cpu_pi.py
 
-import random
+import numpy as np
 import time
 
-def estimate_pi_cpu_loop(n_points):
+def estimate_pi_cpu(n_points):
     """
-    Estime Pi en utilisant une boucle for simple sur le CPU.
-    C'est la méthode la plus lente (séquentielle).
+    Estime Pi en utilisant NumPy pour un calcul vectorisé sur le CPU.
     """
-    print(f"--- 1. Calcul sur CPU avec une boucle for sur {n_points:,} points ---")
+    start_time = time.perf_counter()
     
-    start_time = time.time()
-    points_inside_circle = 0
+    # 1. Utiliser NumPy pour générer TOUS les points d'un coup (plus rapide)
+    points = np.random.rand(n_points, 2)
     
-    for _ in range(n_points):
-        x = random.random()
-        y = random.random()
-        if x**2 + y**2 <= 1.0:
-            points_inside_circle += 1
-            
+    # 2. Calcul vectorisé
+    distances_sq = points[:, 0]**2 + points[:, 1]**2
+    points_inside_circle = np.sum(distances_sq <= 1)
+    
+    # 3. Estimation de Pi
     pi_estimate = 4 * points_inside_circle / n_points
-    end_time = time.time()
     
+    end_time = time.perf_counter()
     cpu_time = end_time - start_time
     
-    print(f"Estimation de π (CPU) ≈ {pi_estimate}")
-    print(f"Temps de calcul (CPU) : {cpu_time:.4f} secondes")
-    return cpu_time
+    # 4. La fonction retourne les résultats, elle n'affiche rien.
+    return pi_estimate, cpu_time

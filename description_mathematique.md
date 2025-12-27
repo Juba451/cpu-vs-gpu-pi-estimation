@@ -1,3 +1,15 @@
+\documentclass[11pt]{article}
+\usepackage[french]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage[version=4]{mhchem}
+\usepackage{stmaryrd}
+\usepackage{bbold}
+
+\begin{document}
 $$
 \begin{aligned}
 & D=\left\{(x, y) \in \mathbb{R}^2, 0 \leqslant x \leqslant 1,0 \leqslant y \leqslant \sqrt{x-x}\right\} \\
@@ -6,13 +18,16 @@ $$
 $$
 
 Calculer l'aire A:
+
 $$
 \begin{aligned}
 & A=\iint_D d y d x=\int_0^1 \int_0^{\sqrt{1-x^2}} d y d x \\
 & A=\int_0^1 \sqrt{1-x^2} d x
 \end{aligned}
 $$
+
 on fait une substitution trigonometrique
+
 $$
 \begin{aligned}
 & \Rightarrow \sin \theta=\frac{x}{1} \\
@@ -20,6 +35,7 @@ $$
 & \frac{d}{d x}=\cos \theta d \theta
 \end{aligned}
 $$
+
 $$
 \begin{aligned}
 & x \in[0 ; 1] \Leftrightarrow \theta \in\left[0 ; \frac{\pi}{2}\right] \\
@@ -29,6 +45,7 @@ $$
 $$
 
 On utilise l'identité d'angle double:
+
 $$
 \begin{gathered}
 \cos (2 \theta)=2 \cos (\theta)-1 \\
@@ -40,3 +57,6 @@ A=\frac{1}{2}[\sin (\pi)-\sin (0)]+\frac{1}{2}\left[\frac{\pi}{2}\right] \\
 A=\frac{1}{2} \times \frac{\pi}{2}=\frac{\pi}{4}
 \end{gathered}
 $$
+
+
+\end{document}

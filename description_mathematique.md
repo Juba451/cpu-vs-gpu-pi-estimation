@@ -11,7 +11,7 @@
 
 
 $$
-D = {\{ (x, y) \in \mathbb{R}^2 \mid 0 \le x \le 1, 0 \le y \le \sqrt{1-x^2} \}}
+D ={{ \{ (x, y) \in \mathbb{R}^2 \mid 0 \le x \le 1, 0 \le y \le \sqrt{1-x^2} \}}}
 $$
 
 $$

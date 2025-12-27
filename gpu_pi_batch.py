@@ -12,7 +12,13 @@ def estimer_pi_gpu_par_lots(total_simulations, taille_lot):
     Estime Pi sur GPU avec une méthode par lots.
     Retourne l'estimation et le temps de calcul.
     """
-    try:
+   if not CUPY_DISPONIBLE:
+        print("Avertissement : CuPy n'est pas disponible. Le calcul GPU par lots est ignoré.")
+        return None, float('inf')
+
+    # Si CuPy est disponible, on exécute le code normalement.
+    print(f"\n--- 2. Calcul sur GPU 'par lots' sur {total_simulations:,} points ---")
+    
         cp.cuda.runtime.deviceSynchronize()
         start_time = time.perf_counter()
         

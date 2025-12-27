@@ -11,10 +11,11 @@
 
 
 $$
-\begin{aligned}
-& D=\left\{(x, y) \in \mathbb{R}^2, 0 \leqslant x \leqslant 1,0 \leqslant y \leqslant \sqrt{x-x}\right\} \\
-& x^2+y^2=1 \Rightarrow y=\sqrt{1-x^2}(y \geq 0)
-\end{aligned}
+D = \{ (x, y) \in \mathbb{R}^2 \mid 0 \le x \le 1, 0 \le y \le \sqrt{1-x^2} \}
+$$
+
+$$
+x^2+y^2=1 \Rightarrow y = \sqrt{1-x^2} \quad (y \ge 0)
 $$
 
 Calculer l'aire A:

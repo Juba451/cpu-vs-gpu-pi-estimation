@@ -1,15 +1,3 @@
-\documentclass[11pt]{article}
-\usepackage[french]{babel}
-\usepackage[utf8]{inputenc}
-\usepackage[T1]{fontenc}
-\usepackage{amsmath}
-\usepackage{amsfonts}
-\usepackage{amssymb}
-\usepackage[version=4]{mhchem}
-\usepackage{stmaryrd}
-\usepackage{bbold}
-
-
 $$
 D ={{ \{ (x, y) \in \mathbb{R}^2 \mid 0 \le x \le 1, 0 \le y \le \sqrt{1-x^2} \}}}
 $$

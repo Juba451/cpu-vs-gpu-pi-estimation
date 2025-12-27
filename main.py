@@ -11,8 +11,8 @@ def main():
     de calcul de Pi, et qui gère l'affichage des résultats.
     """
     # Paramètres
-  nombre_de_simulations = 100_000_000
-  taille_du_lot = 10_000_000
+    nombre_de_simulations = 100_000_000
+    taille_du_lot = 10_000_000
 
     
     #Exécution

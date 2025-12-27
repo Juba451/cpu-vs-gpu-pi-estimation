@@ -16,16 +16,17 @@ try:
     }
     ''', 'monte_carlo_pi')
 except (ImportError, NameError):
-    cuda_kernel = None
+    CUPY_DISPONIBLE = False
+    kernel_cuda = None
 
 def estimater_pi_gpu_optimise(nombre_simulations):
     """
     Estime Pi sur GPU avec un kernel CUDA optimisé.
     Retourne l'estimation et le temps de calcul.
     """
-    if cuda_kernel is None:
+    if not CUPY_DISPONIBLE or cuda_kernel is None:
         return None, float('inf')
-
+print(f"\n--- 3. Calcul sur GPU Optimisé (Kernel) sur {nombre_simulations:,} points ---")
     cp.cuda.runtime.deviceSynchronize()
     start_time = time.perf_counter()
     

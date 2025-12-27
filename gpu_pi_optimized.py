@@ -18,7 +18,7 @@ try:
 except (ImportError, NameError):
     cuda_kernel = None
 
-def estimate_pi_gpu_optimized(n_points):
+def estimater_pi_gpu_optimise(nombre_simulations):
     """
     Estime Pi sur GPU avec un kernel CUDA optimisé.
     Retourne l'estimation et le temps de calcul.
@@ -29,19 +29,19 @@ def estimate_pi_gpu_optimized(n_points):
     cp.cuda.runtime.deviceSynchronize()
     start_time = time.perf_counter()
     
-    x = cp.random.rand(n_points, dtype=cp.float32)
-    y = cp.random.rand(n_points, dtype=cp.float32)
-    counter = cp.zeros(1, dtype=cp.uint64)
+    x = cp.random.rand(nombre_simulations, dtype=cp.float32)
+    y = cp.random.rand(nombre_simulations, dtype=cp.float32)
+    compteur = cp.zeros(1, dtype=cp.uint64)
     
-    threads_per_block = 256
-    blocks_per_grid = (n_points + threads_per_block - 1) // threads_per_block
+    threads_par_bloc = 256
+    blocs_par_grille = (nombre_simulations + threads_par_bloc - 1) // threads_par_bloc
     
-    cuda_kernel((blocks_per_grid,), (threads_per_block,), (x, y, counter, n_points))
+     kernel_cuda((blocs_par_grille,), (threads_par_bloc,), (x, y, compteur, nombre_simulations))
     
-    pi_estimate = 4 * counter[0] / n_points
+    estimation_pi = 4 * compteur[0] / nombre_simulations
     
     cp.cuda.runtime.deviceSynchronize()
-    end_time = time.perf_counter()
-    gpu_opt_time = end_time - start_time
+    fin_chrono = time.perf_counter()
+    temps_gpu_opt = fin_chrono - debut_chrono
     
-    return pi_estimate, gpu_opt_time
+    return estimation_pi, temps_gpu_opt

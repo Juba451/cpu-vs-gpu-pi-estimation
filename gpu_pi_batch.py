@@ -7,7 +7,7 @@ try:
 except ImportError:
     pass
 
-def estimate_pi_gpu_batch(total_points, batch_size):
+def estimer_pi_gpu_par_lots(total_simulations, taille_lot):
     """
     Estime Pi sur GPU avec une méthode par lots.
     Retourne l'estimation et le temps de calcul.
@@ -16,22 +16,22 @@ def estimate_pi_gpu_batch(total_points, batch_size):
         cp.cuda.runtime.deviceSynchronize()
         start_time = time.perf_counter()
         
-        total_inside_circle = 0
-        num_batches = total_points // batch_size
+        total_points_dedans = 0
+        nombre_de_lots = total_simulations // taille_lot
         
-        for _ in range(num_batches):
-            points = cp.random.rand(batch_size, 2)
-            distances_sq = points[:, 0]**2 + points[:, 1]**2
-            inside_this_batch = cp.sum(distances_sq <= 1)
-            total_inside_circle += inside_this_batch
+        for _ in range(nombre_de_lots):
+            points = cp.random.rand(taille_lot, 2)
+            distances_carre = points[:, 0]**2 + points[:, 1]**2
+            dedans_ce_lot = cp.sum(distances_carre <= 1)
+            total_points_dedans += dedans_ce_lot
             
-        pi_estimate_gpu = 4 * total_inside_circle / total_points
+         estimation_pi_gpu = 4 * total_points_dedans / total_simulations
         
         cp.cuda.runtime.deviceSynchronize()
         end_time = time.perf_counter()
         gpu_time = end_time - start_time
         
-        return pi_estimate_gpu, gpu_time
+        return estimation_pi_gpu, temps_gpu
         
     except NameError:
         return None, float('inf')

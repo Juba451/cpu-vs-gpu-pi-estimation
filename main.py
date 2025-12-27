@@ -1,9 +1,9 @@
 # main.py
 
 # On importe les fonctions spécifiques de nos autres fichiers
-from cpu_pi import estimate_pi_cpu
-from gpu_pi_batch import estimate_pi_gpu_batch
-from gpu_pi_optimized import estimate_pi_gpu_optimized
+from cpu_pi import estimate_pi_cpu as estimer_pi_cpu
+from gpu_pi_batch import estimate_pi_gpu_batch as estimer_pi_gpu_par_lots
+from gpu_pi_optimized import estimate_pi_gpu_optimized as estimer_pi_gpu_optimise
 
 def main():
     """
@@ -11,46 +11,56 @@ def main():
     de calcul de Pi, et qui gère l'affichage des résultats.
     """
     # Paramètres
-    n_points_cpu = 100_000_000 # On peut augmenter car NumPy est rapide
-    n_points_gpu = 100_000_000
-    batch_size_gpu = 10_000_000
-    
-    # --- Exécution ---
-    print(f"--- 1. Calcul sur CPU (NumPy) sur {n_points_cpu:,} points ---")
-    pi_cpu, cpu_time = estimate_pi_cpu(n_points_cpu)
+  nombre_de_simulations = 100_000_000
+  taille_du_lot = 10_000_000
 
-    print(f"\n--- 2. Calcul sur GPU 'par lots' sur {n_points_gpu:,} points ---")
-    pi_gpu_batch, gpu_batch_time = estimate_pi_gpu_batch(n_points_gpu, batch_size_gpu) 
     
-    print(f"\n--- 3. Calcul sur GPU Optimisé (Kernel) sur {n_points_gpu:,} points ---")
-    pi_gpu_opt, gpu_opt_time = estimate_pi_gpu_optimized(n_points_gpu)
+    #Exécution
+    print("Lancement des calculs...")
+    
+    pi_cpu, temps_cpu = estimer_pi_cpu(nombre_de_simulations)
+    pi_gpu_batch, temps_gpu_batch = estimer_pi_gpu_par_lots(nombre_de_simulations, taille_du_lot) 
+    pi_gpu_opt, temps_gpu_opt = estimer_pi_gpu_optimise(nombre_de_simulations)
 
-    # --- Conclusion ---
-    print("\n" + "="*40)
-    print("           TABLEAU DES RÉSULTATS")
-    print("="*40)
-    print(f"Méthode CPU (NumPy)    : π ≈ {pi_cpu:.6f}  | Temps: {cpu_time:.4f}s")
+    # ====================================================================
+    # AFFICHAGE DES RÉSULTATS
+    # ====================================================================
+    print("\n" + "="*50)
+    print("           TABLEAU FINAL DES RÉSULTATS")
+    print("="*50)
+    print(f"Nombre de simulations : {nombre_de_simulations:,}")
+    print("-" * 50)
     
+    #résultats du CPU
+    print(f"Méthode CPU       : π ≈ {pi_cpu:.6f}  | Temps: {temps_cpu:.4f}s")
+    
+    #résultats du GPU (par lots)
     if pi_gpu_batch is not None:
-        print(f"Méthode GPU (par lots)   : π ≈ {float(pi_gpu_batch):.6f}  | Temps: {gpu_batch_time:.4f}s")
+        print(f"Méthode GPU (lots)  : π ≈ {float(pi_gpu_batch):.6f}  | Temps: {temps_gpu_batch:.4f}s")
     else:
-        print("Méthode GPU (par lots)   : Non exécutée (CuPy non disponible)")
+        print("Méthode GPU (lots)  : Non exécutée (CuPy non disponible)")
         
+    #résultats du GPU (optimisé)
     if pi_gpu_opt is not None:
-        print(f"Méthode GPU (optimisé)   : π ≈ {float(pi_gpu_opt):.6f}  | Temps: {gpu_opt_time:.4f}s")
+        print(f"Méthode GPU (optim) : π ≈ {float(pi_gpu_opt):.6f}  | Temps: {temps_gpu_opt:.4f}s")
     else:
-        print("Méthode GPU (optimisé)   : Non exécutée (CuPy non disponible)")
+        print("Méthode GPU (optim) : Non exécutée (CuPy non disponible)")
     
-    print("="*40)
+    print("="*50)
     
-    if gpu_batch_time != float('inf'):
-        speedup_batch = cpu_time / gpu_batch_time
-        print(f"✅ Le GPU (par lots) est {speedup_batch:.0f} fois plus rapide que le CPU.")
+    # ====================================================================
+    # CALCUL DES ACCÉLÉRATIONS
+    # ====================================================================
     
-    if gpu_opt_time != float('inf'):
-        speedup_opt = cpu_time / gpu_opt_time
-        print(f"✅ Le GPU (Optimisé) est {speedup_opt:.0f} fois plus rapide que le CPU.")
-    print("="*40)
+    if temps_gpu_batch > 0:
+        acceleration_batch = temps_cpu / temps_gpu_batch
+        print(f"✅ Le GPU (par lots) est {acceleration_batch:.0f} fois plus rapide que le CPU.")
+    
+    if temps_gpu_opt > 0:
+        acceleration_opt = temps_cpu / temps_gpu_opt
+        print(f"✅ Le GPU (Optimisé) est {acceleration_opt:.0f} fois plus rapide que le CPU.")
+    
+    print("="*50)
 
 if __name__ == "__main__":
     main()

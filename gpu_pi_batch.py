@@ -6,9 +6,9 @@ import time
 try:
     import cupy as cp
     cp.cuda.runtime.getDeviceCount()
-    CUPY_ET_GPU_DISPONIBLE = True
+    CUPY_ET_GPU_DISPONIBLES = True
 except (ImportError, cp.cuda.runtime.CudaAPIError):
-    CUPY_ET_GPU_DISPONIBLE = False
+    CUPY_ET_GPU_DISPONIBLES = False
 
 def estimer_pi_gpu_par_lots(total_simulations, taille_lot):
     """
@@ -16,7 +16,7 @@ def estimer_pi_gpu_par_lots(total_simulations, taille_lot):
     Retourne l'estimation de Pi et le temps de calcul.
     """
     # On vérifie si CuPy est disponible au début de la fonction.
-    if not CUPY_DISPONIBLE:
+    if not CUPY_ET_GPU_DISPONIBLES:
         # Si non, on s'arrête tout de suite.
         print("Avertissement : CuPy ou un GPU/Driver compatible n'est pas disponible. Le calcul GPU par lots est ignoré.")
         return None, float('inf')

@@ -44,10 +44,7 @@ def estimer_pi_gpu_optimise(nombre_simulations):
     threads_par_bloc = 256
     blocs_par_grille = (nombre_simulations + threads_par_bloc - 1) // threads_par_bloc
     
-    # --- CORRECTION ICI ---
-    # Quand on appelle le kernel, l'ordre des arguments compte.
-    # On envoie bien (x, y, compteur, nombre_simulations).
-    # Le kernel va les recevoir dans le même ordre.
+
     kernel_cuda((blocs_par_grille,), (threads_par_bloc,), (x, y, compteur, nombre_simulations))
     
     # On utilise la variable Python "compteur" pour lire le résultat

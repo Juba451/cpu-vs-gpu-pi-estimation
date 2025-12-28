@@ -1,6 +1,6 @@
 
 
-\begin{document}
+
 $$
 \begin{aligned}
 & D=\left\{(x, y) \in \mathbb{R}^2, 0 \leqslant x \leqslant 1,0 \leqslant y \leqslant \sqrt{x-x}\right\} \\

@@ -1,9 +1,9 @@
 # main.py
 
 # On importe les fonctions spécifiques de nos autres fichiers
-from cpu_pi import estimate_pi_cpu as estimer_pi_cpu
-from gpu_pi_batch import estimate_pi_gpu_batch as estimer_pi_gpu_par_lots
-from gpu_pi_optimized import estimate_pi_gpu_optimized as estimer_pi_gpu_optimise
+from cpu_pi import estimer_pi_cpu
+from gpu_pi_batch import estimer_pi_gpu_par_lots
+from gpu_pi_optimized import estimer_pi_gpu_optimise
 
 def main():
     """

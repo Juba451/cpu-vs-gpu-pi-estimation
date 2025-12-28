@@ -4,13 +4,14 @@ import time
 
 try:
     import cupy as cp
-    cuda_kernel = cp.RawKernel(r'''
+    CUPY_DISPONIBLE = True
+    kernel_cuda = cp.RawKernel(r'''
     extern "C" __global__
     void monte_carlo_pi(const float* x, const float* y, unsigned long long* counter, int n) {
         int tid = blockDim.x * blockIdx.x + threadIdx.x;
         if (tid < n) {
             if (x[tid] * x[tid] + y[tid] * y[tid] <= 1.0f) {
-                atomicAdd(counter, 1);
+                atomicAdd(compteur, 1);
             }
         }
     }
@@ -19,16 +20,20 @@ except (ImportError, NameError):
     CUPY_DISPONIBLE = False
     kernel_cuda = None
 
-def estimater_pi_gpu_optimise(nombre_simulations):
+def estimer_pi_gpu_optimise(nombre_simulations):
     """
     Estime Pi sur GPU avec un kernel CUDA optimisé.
-    Retourne l'estimation et le temps de calcul.
+    Retourne l'estimation de Pi et le temps de calcul.
     """
-    if not CUPY_DISPONIBLE or cuda_kernel is None:
+    # On vérifie si tout est disponible avant de commencer.
+    if not CUPY_DISPONIBLE or kernel_cuda is None:
+        print("Avertissement : CuPy n'est pas disponible. Le calcul GPU optimisé est ignoré.")
         return None, float('inf')
-print(f"\n--- 3. Calcul sur GPU Optimisé (Kernel) sur {nombre_simulations:,} points ---")
+
+    print(f"\n--- 3. Calcul sur GPU Optimisé (Kernel) sur {nombre_simulations:,} points ---")
+    
     cp.cuda.runtime.deviceSynchronize()
-    start_time = time.perf_counter()
+    debut_chrono = time.perf_counter()
     
     x = cp.random.rand(nombre_simulations, dtype=cp.float32)
     y = cp.random.rand(nombre_simulations, dtype=cp.float32)
@@ -37,7 +42,7 @@ print(f"\n--- 3. Calcul sur GPU Optimisé (Kernel) sur {nombre_simulations:,} po
     threads_par_bloc = 256
     blocs_par_grille = (nombre_simulations + threads_par_bloc - 1) // threads_par_bloc
     
-     kernel_cuda((blocs_par_grille,), (threads_par_bloc,), (x, y, compteur, nombre_simulations))
+    kernel_cuda((blocs_par_grille,), (threads_par_bloc,), (x, y, compteur, nombre_simulations))
     
     estimation_pi = 4 * compteur[0] / nombre_simulations
     

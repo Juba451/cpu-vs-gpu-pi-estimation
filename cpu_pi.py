@@ -10,7 +10,7 @@ def estimer_pi_cpu(nombre_simulations):
     """
     debut_chrono = time.perf_counter()
     
-    # 1. Utiliser NumPy pour générer TOUS les points d'un coup (plus rapide)
+    # 1. Utiliser NumPy pour générer tous les points d'un coup (plus rapide)
     points = np.random.rand(nombre_simulations, 2)
     
     # 2. Calcul vectorisé

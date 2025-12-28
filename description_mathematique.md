@@ -29,7 +29,7 @@ $$
 \begin{aligned}
 & x \in[0 ; 1] \Leftrightarrow \theta \in\left[0 ; \frac{\pi}{2}\right] \\
 & \int_0^1 \sqrt{1-x^2} d x=\int_0^{\frac{\pi}{2}} \underbrace{(\sqrt{1-\sin ^2 \theta}=\cos \theta)} d \theta \\
-& {car} \cos \theta >= 0 {sur}\left[0 ; \frac{\pi}{2}\right] ===> A=\int_0^{\frac{\pi}{2}}\cos ^2 \theta d \theta
+& {car}  {} {}    \cos \theta >= 0 {}{}{sur}\left[0 ; \frac{\pi}{2}\right] {donc}{} A=\int_0^{\frac{\pi}{2}}\cos ^2 \theta d \theta
 \end{aligned}
 $$
 

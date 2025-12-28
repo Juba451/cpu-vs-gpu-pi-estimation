@@ -45,9 +45,11 @@ $$
 **3. Substitution Trigonométrique**
 
 Cette intégrale est difficile à calculer directement. On effectue donc une substitution trigonométrique :
+
 $$
 x = \sin(\theta) \implies dx = \cos(\theta) \, d\theta
 $$
+
 Il faut aussi changer les bornes de l'intégration :
 - Si `x = 0`, alors `sin(θ) = 0 \implies θ = 0`.
 - Si `x = 1`, alors `sin(θ) = 1 \implies θ = π/2`.

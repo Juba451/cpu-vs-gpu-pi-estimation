@@ -20,7 +20,7 @@ on fait une substitution trigonometrique
 $$
 \begin{aligned}
 & \Rightarrow \sin \theta=\frac{x}{1} \\
-& \frac{d \sin 2 \theta}{d \theta}=\frac{d x}{d \theta} \\
+& \frac{d \sin  \theta}{d \theta}=\frac{d x}{d \theta} \\
 & \frac{d}{d x}=\cos \theta d \theta
 \end{aligned}
 $$

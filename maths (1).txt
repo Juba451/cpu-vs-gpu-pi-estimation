@@ -1,0 +1,37 @@
+
+$$
+D = \left\{ (x,y) \in \mathbb{R}^2 \;\middle|\; 0 \le x \le 1,\; 0 \le y \le \sqrt{1 - x^2} \right\}
+$$
+
+$$
+A = \iint_D 1 \, dA
+$$
+
+$$
+A = \int_{0}^{1} \int_{0}^{\sqrt{1 - x^2}} 1 \, dy \, dx
+$$
+
+$$
+A = \int_{0}^{1} \sqrt{1 - x^2} \, dx
+$$
+
+$$
+x = \sin \theta, \quad dx = \cos \theta \, d\theta
+$$
+
+$$
+A = \int_{0}^{\pi/2} \cos^2 \theta \, d\theta
+$$
+
+$$
+\cos^2 \theta = \frac{1 + \cos(2\theta)}{2}
+$$
+
+$$
+\int_{0}^{\pi/2} \cos^2 \theta \, d\theta = \frac{\pi}{4}
+$$
+
+
+$$
+\boxed{A = \frac{\pi}{4}}
+$$

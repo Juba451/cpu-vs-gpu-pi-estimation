@@ -4,7 +4,7 @@ import time
 
 try:
     import cupy as cp
-    CUPY_DISPONIBLE = True
+    CUPY_ET_GPU_DISPONIBLES = True
 
     kernel_cuda = cp.RawKernel(r'''
     extern "C" __global__
@@ -18,8 +18,8 @@ try:
         }
     }
     ''', 'monte_carlo_pi')
-except (ImportError, NameError):
-    CUPY_DISPONIBLE = False
+except (ImportError, cp.cuda.runtime.CudaAPIError):
+    CUPY_ET_GPU_DISPONIBLES = False
     kernel_cuda = None
 
 def estimer_pi_gpu_optimise(nombre_simulations):
@@ -27,8 +27,8 @@ def estimer_pi_gpu_optimise(nombre_simulations):
     Estime Pi sur GPU avec un kernel CUDA optimisé.
     Retourne l'estimation de Pi et le temps de calcul.
     """
-    if not CUPY_DISPONIBLE or kernel_cuda is None:
-        print("Avertissement : CuPy n'est pas disponible. Le calcul GPU optimisé est ignoré.")
+    if not CUPY_ET_GPU_DISPONIBLES or kernel_cuda is None:
+        print("Avertissement : CuPy ou un GPU/Driver n'est pas disponible. Le calcul GPU optimisé est ignoré.")
         return None, float('inf')
 
     print(f"\n--- 3. Calcul sur GPU Optimisé (Kernel) sur {nombre_simulations:,} points ---")

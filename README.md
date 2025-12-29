@@ -16,6 +16,12 @@ Chaque lancer étant un calcul **indépendant**, ce problème est parfaitement a
 
 Pour prouver que l'aire du quart de cercle est bien `π/4`, on peut la calculer de manière analytique en utilisant une intégrale. C'est la méthode "exacte", par opposition à la méthode "estimée" de Monte-Carlo.
 
+L'aire `A` que nous cherchons correspond à la surface sous la courbe de la fonction `y = sqrt(1-x²)` entre `x=0` et `x=1`, comme le montre ce graphe :
+
+![Graphe de l'aire sous la courbe](images/aire_integrale.png)
+
+Le calcul ci-dessous détaille comment résoudre l'intégrale correspondante.
+
 **1. Définition du Domaine**
 
 Le domaine `D` est le quart de cercle unité dans le premier quadrant, défini par :

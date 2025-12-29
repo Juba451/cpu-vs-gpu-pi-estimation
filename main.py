@@ -1,5 +1,3 @@
-# main.py
-
 # On importe les fonctions spécifiques de nos autres fichiers
 from cpu_pi import estimer_pi_cpu
 from gpu_pi_batch import estimer_pi_gpu_par_lots
@@ -11,16 +9,16 @@ def main():
     de calcul de Pi, et qui gère l'affichage des résultats.
     """
     # Paramètres
-    nombre_de_simulations = 100_000_000
-    taille_du_lot = 10_000_000
+    nombre_points = 100_000_000 # représente le nombre total de "fléchettes" virtuelles que nous allons lancer pour estimer Pi.
+    taille_du_lot = 10_000_000 # un paramètre technique pour la méthode GPU par lots. Il définit combien de points sont traités en parallèle à chaque étape.
 
     
     #Exécution
     print("Lancement des calculs...")
     
-    pi_cpu, temps_cpu = estimer_pi_cpu(nombre_de_simulations)
-    pi_gpu_batch, temps_gpu_batch = estimer_pi_gpu_par_lots(nombre_de_simulations, taille_du_lot) 
-    pi_gpu_opt, temps_gpu_opt = estimer_pi_gpu_optimise(nombre_de_simulations)
+    pi_cpu, temps_cpu = estimer_pi_cpu(nombre_points)
+    pi_gpu_batch, temps_gpu_batch = estimer_pi_gpu_par_lots(nombre_points, taille_du_lot) 
+    pi_gpu_opt, temps_gpu_opt = estimer_pi_gpu_optimise(nombre_points)
 
     # ====================================================================
     # AFFICHAGE DES RÉSULTATS
@@ -28,7 +26,7 @@ def main():
     print("\n" + "="*50)
     print("           TABLEAU FINAL DES RÉSULTATS")
     print("="*50)
-    print(f"Nombre de simulations : {nombre_de_simulations:,}")
+    print(f"Nombre de simulations : {nombre_points:,}")
     print("-" * 50)
     
     #résultats du CPU

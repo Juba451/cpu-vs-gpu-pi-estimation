@@ -1,4 +1,4 @@
-# gpu_pi_optimized.py
+
 
 import time
 
@@ -22,7 +22,7 @@ except (ImportError, cp.cuda.runtime.CudaAPIError):
     CUPY_ET_GPU_DISPONIBLES = False
     kernel_cuda = None
 
-def estimer_pi_gpu_optimise(nombre_simulations):
+def estimer_pi_gpu_optimise(nombre_points):
     """
     Estime Pi sur GPU avec un kernel CUDA optimisé.
     Retourne l'estimation de Pi et le temps de calcul.
@@ -31,24 +31,24 @@ def estimer_pi_gpu_optimise(nombre_simulations):
         print("Avertissement : CuPy ou un GPU/Driver n'est pas disponible. Le calcul GPU optimisé est ignoré.")
         return None, float('inf')
 
-    print(f"\n--- 3. Calcul sur GPU Optimisé (Kernel) sur {nombre_simulations:,} points ---")
+    print(f"\n--- 3. Calcul sur GPU Optimisé (Kernel) sur {nombre_points:,} points ---")
     
     cp.cuda.runtime.deviceSynchronize()
     debut_chrono = time.perf_counter()
     
-    x = cp.random.rand(nombre_simulations, dtype=cp.float32)
-    y = cp.random.rand(nombre_simulations, dtype=cp.float32)
-    # La variable Python s'appelle "compteur"
-    compteur = cp.zeros(1, dtype=cp.uint64)
+    x = cp.random.rand(nombre_points, dtype=cp.float32)
+    y = cp.random.rand(nombre_points, dtype=cp.float32)
+    
+    points_dans_cercle_gpu = cp.zeros(1, dtype=cp.uint64)
     
     threads_par_bloc = 256
-    blocs_par_grille = (nombre_simulations + threads_par_bloc - 1) // threads_par_bloc
+    blocs_par_grille = (nombre_points + threads_par_bloc - 1) // threads_par_bloc
     
 
-    kernel_cuda((blocs_par_grille,), (threads_par_bloc,), (x, y, compteur, nombre_simulations))
+    kernel_cuda((blocs_par_grille,), (threads_par_bloc,), (x, y, points_dans_cercle_gpu, nombre_points))
     
-    # On utilise la variable Python "compteur" pour lire le résultat
-    estimation_pi = 4 * compteur[0] / nombre_simulations
+    
+    estimation_pi = 4 * points_dans_cercle_gpu[0] / nombre_points
     
     cp.cuda.runtime.deviceSynchronize()
     fin_chrono = time.perf_counter()

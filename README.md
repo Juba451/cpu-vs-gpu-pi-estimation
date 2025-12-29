@@ -42,22 +42,28 @@ A &= \iint_D 1 \, dA \\
 \end{aligned}
 $$
 
-**3. Substitution Trigonométrique**
+**3. Changement de variable**
 
 Cette intégrale est difficile à calculer directement. On effectue donc une substitution trigonométrique :
 
 $$
-x = \sin(\theta) \implies dx = \cos(\theta) \, d\theta
+x = \sin(\theta) \implies dx = \cos(\theta) \ d\theta
 $$
 
 Il faut aussi changer les bornes de l'intégration :
-- Si `x = 0`, alors `sin(θ) = 0 \implies θ = 0`.
-- Si `x = 1`, alors `sin(θ) = 1 \implies θ = π/2`.
+
+$$
+\text{Si } x = 0, \text{ alors } \sin(\theta) = 0 \implies \theta = 0
+$$
+
+$$
+\text{Si } x = 1, \text{ alors } \sin(\theta) = 1 \implies \theta = \frac{\pi}{2}
+$$
 
 En remplaçant `x` et `dx` dans l'intégrale, on obtient :
 
 $$
-A = \int_{0}^{\pi/2} \sqrt{1 - \sin^2(\theta)} \cdot \cos(\theta) \, d\theta
+A = \int_{0}^{\pi/2} \sqrt{1 - \sin^2(\theta)} \cdot \cos(\theta) \ d\theta
 $$
 
 Puisque `1 - sin²(θ) = cos²(θ)` et que `cos(θ) ≥ 0` sur l'intervalle `[0, π/2]`, l'intégrale se simplifie en :
@@ -65,8 +71,6 @@ Puisque `1 - sin²(θ) = cos²(θ)` et que `cos(θ) ≥ 0` sur l'intervalle `[0,
 $$
 A = \int_{0}^{\pi/2} \cos^2(\theta) \, d\theta
 $$
-
-**4. Résolution de l'Intégrale**
 
 Pour résoudre cette intégrale, on utilise l'identité de l'angle double :
 
@@ -81,8 +85,6 @@ $$
 A &= \int_{0}^{\pi/2} \frac{1 + \cos(2\theta)}{2} \, d\theta \\
 &= \frac{1}{2} \int_{0}^{\pi/2} (1 + \cos(2\theta)) \, d\theta \\
 &= \frac{1}{2} \left[ \theta + \frac{1}{2}\sin(2\theta) \right]_{0}^{\pi/2} \\
-&= \frac{1}{2} \left( \left( \frac{\pi}{2} + \frac{1}{2}\sin(\pi) \right) - \left( 0 + \frac{1}{2}\sin(0) \right) \right) \\
-&= \frac{1}{2} \left( \left( \frac{\pi}{2} + 0 \right) - ( 0 + 0 ) \right) \\
 &= \frac{\pi}{4}
 \end{aligned}
 $$

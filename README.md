@@ -42,7 +42,7 @@ L'aire `A` de ce domaine peut être calculée avec une intégrale double :
 
 $$
 \begin{aligned}
-A &= \iint_D 1 \, dA \\
+A &= \iint_D 1 \ dxdy \\
 &= \int_{0}^{1} \int_{0}^{\sqrt{1 - x^2}} 1 \ dy \ dx \\
 &= \int_{0}^{1} \sqrt{1 - x^2} \ dx
 \end{aligned}

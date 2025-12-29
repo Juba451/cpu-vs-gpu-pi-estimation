@@ -31,6 +31,6 @@ plt.grid(True, linestyle='--', alpha=0.6)
 plt.text(0.5, 0.3, 'A', fontsize=20, horizontalalignment='center')
 
 # 5. Sauvegarder le graphe dans un fichier image
-plt.savefig('image/aire_integrale.png')
+plt.savefig('images/aire_integrale.png')
 
-print("Graphe 'aire_integrale.png' créé avec succès dans le dossier 'image' !")
+print("Graphe 'aire_integrale.png' créé avec succès dans le dossier 'images' !")

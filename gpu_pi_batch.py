@@ -29,7 +29,7 @@ def estimer_pi_gpu_par_lots(total_simulations, taille_lot):
     
     for _ in range(nombre_de_lots):
         points = cp.random.rand(taille_lot, 2)
-        distances_carre = points[:, 0]**2 + points[:, 1]**2
+        distances_carres = points[:, 0]**2 + points[:, 1]**2
         dedans_ce_lot = cp.sum(distances_carre <= 1)
         total_points_dans_cercle += dedans_ce_lot
         

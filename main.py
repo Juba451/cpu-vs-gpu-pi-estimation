@@ -1,42 +1,64 @@
-# main.py
-
-from cpu_pi import estimate_pi_cpu_loop
-from gpu_pi_batch import estimate_pi_gpu_batch
-from gpu_pi_optimized import estimate_pi_gpu_optimized
+# On importe les fonctions spécifiques de nos autres fichiers
+from cpu_pi import estimer_pi_cpu
+from gpu_pi_batch import estimer_pi_gpu_par_lots
+from gpu_pi_optimized import estimer_pi_gpu_optimise
 
 def main():
     """
     Programme principal qui exécute et compare les différentes méthodes
-    de calcul de Pi.
+    de calcul de Pi, et qui gère l'affichage des résultats.
     """
     # Paramètres
-    n_points_cpu = 100_000_000
-    n_points_gpu = 100_000_000
-    batch_size_gpu = 10_000_000 # On définit la taille du lot ici
-    
-    # Exécution
-    cpu_time = estimate_pi_cpu_loop(n_points_cpu)
-    # On appelle la nouvelle fonction avec les bons arguments
-    gpu_batch_time = estimate_pi_gpu_batch(n_points_gpu, batch_size_gpu) 
-    gpu_opt_time = estimate_pi_gpu_optimized(n_points_gpu)
+    nombre_points = 100_000_000 # représente le nombre total de "fléchettes" virtuelles que nous allons lancer pour estimer Pi.
+    taille_du_lot = 10_000_000 # un paramètre technique pour la méthode GPU par lots. Il définit combien de points sont traités en parallèle à chaque étape.
 
-    # Conclusion
-    print("\n" + "="*30)
-    print("     TABLEAU DES RÉSULTATS")
-    print("="*30)
-    print(f"Temps CPU (boucle)           : {cpu_time:.4f}s")
-    print(f"Temps GPU (par lots)         : {gpu_batch_time:.4f}s") 
-    print(f"Temps GPU (optimisé)         : {gpu_opt_time:.4f}s")
-    print("="*30)
     
-    if gpu_batch_time != float('inf') and gpu_opt_time != float('inf'):
-        # On compare toujours par rapport au CPU
-        speedup_batch = cpu_time / gpu_batch_time
-        speedup_opt = cpu_time / gpu_opt_time
+    #Exécution
+    print("Lancement des calculs...")
+    
+    pi_cpu, temps_cpu = estimer_pi_cpu(nombre_points)
+    pi_gpu_batch, temps_gpu_batch = estimer_pi_gpu_par_lots(nombre_points, taille_du_lot) 
+    pi_gpu_opt, temps_gpu_opt = estimer_pi_gpu_optimise(nombre_points)
+
+    # ====================================================================
+    # AFFICHAGE DES RÉSULTATS
+    # ====================================================================
+    print("\n" + "="*50)
+    print("           TABLEAU FINAL DES RÉSULTATS")
+    print("="*50)
+    print(f"Nombre de simulations : {nombre_points:,}")
+    print("-" * 50)
+    
+    #résultats du CPU
+    print(f"Méthode CPU       : π ≈ {pi_cpu:.6f}  | Temps: {temps_cpu:.4f}s")
+    
+    #résultats du GPU (par lots)
+    if pi_gpu_batch is not None:
+        print(f"Méthode GPU (lots)  : π ≈ {float(pi_gpu_batch):.6f}  | Temps: {temps_gpu_batch:.4f}s")
+    else:
+        print("Méthode GPU (lots)  : Non exécutée (CuPy non disponible)")
         
-        print(f"✅ Le GPU (par lots) est {speedup_batch:.0f} fois plus rapide que le CPU.")
-        print(f"✅ Le GPU (Optimisé) est {speedup_opt:.0f} fois plus rapide que le CPU.")
-        print("="*30)
+    #résultats du GPU (optimisé)
+    if pi_gpu_opt is not None:
+        print(f"Méthode GPU (optim) : π ≈ {float(pi_gpu_opt):.6f}  | Temps: {temps_gpu_opt:.4f}s")
+    else:
+        print("Méthode GPU (optim) : Non exécutée (CuPy non disponible)")
+    
+    print("="*50)
+    
+    # ====================================================================
+    # CALCUL DES ACCÉLÉRATIONS
+    # ====================================================================
+    
+    if temps_gpu_batch > 0:
+        acceleration_batch = temps_cpu / temps_gpu_batch
+        print(f"✅ Le GPU (par lots) est {acceleration_batch:.0f} fois plus rapide que le CPU.")
+    
+    if temps_gpu_opt > 0:
+        acceleration_opt = temps_cpu / temps_gpu_opt
+        print(f"✅ Le GPU (Optimisé) est {acceleration_opt:.0f} fois plus rapide que le CPU.")
+    
+    print("="*50)
 
 if __name__ == "__main__":
     main()

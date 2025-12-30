@@ -10,8 +10,92 @@ L'objectif est d'estimer la valeur de π sans la calculer directement, en utilis
 
 On se base sur le rapport entre l'aire d'un quart de cercle de rayon 1 et l'aire d'un carré de côté 1. En lançant des milliers de "fléchettes" (points aléatoires) sur cette cible, on peut estimer π avec la formule : `π ≈ 4 * (nombre de points dans le cercle / nombre total de points)`.
 
-
 Chaque lancer étant un calcul **indépendant**, ce problème est parfaitement adapté au **calcul parallèle** sur GPU.
+
+### La Démonstration Mathématique (Solution Analytique)
+
+Pour prouver que l'aire du quart de cercle est bien `π/4`, on peut la calculer de manière analytique en utilisant une intégrale. C'est la méthode "exacte", par opposition à la méthode "estimée" de Monte-Carlo.
+
+L'aire `A` que nous cherchons correspond à la surface sous la courbe de la fonction `y = sqrt(1-x²)` entre `x=0` et `x=1`, comme le montre ce graphe :
+
+![Graphe de l'aire sous la courbe](images/aire_integrale.png)
+
+Le calcul ci-dessous détaille comment résoudre l'intégrale correspondante.
+
+**1. Définition du Domaine**
+
+Le domaine `D` est le quart de cercle unité dans le premier quadrant, défini par :
+
+$$
+D = \{ (x, y) \in \mathbb{R}^2 \mid 0 \le x \le 1, \  0 \le y \le \sqrt{1-x^2} \}
+$$
+
+L'arc de cercle suit l'équation :
+
+$$
+x^2+y^2=1 \implies y = \sqrt{1-x^2} \quad (\text{pour } y \ge 0)
+$$
+
+**2. Mise en place de l'Intégrale**
+
+L'aire `A` de ce domaine peut être calculée avec une intégrale double :
+
+$$
+\begin{aligned}
+A &= \iint_D 1 \ dxdy \\
+&= \int_{0}^{1} \int_{0}^{\sqrt{1 - x^2}} 1 \ dy \ dx \\
+&= \int_{0}^{1} \sqrt{1 - x^2} \ dx
+\end{aligned}
+$$
+
+**3. Changement de variable**
+
+Cette intégrale est difficile à calculer directement. On effectue donc une substitution trigonométrique :
+
+$$
+x = \sin(\theta) \implies dx = \cos(\theta) \ d\theta
+$$
+
+Il faut aussi changer les bornes de l'intégration :
+
+$$
+\text{Si } x = 0, \text{ alors } \sin(\theta) = 0 \implies \theta = 0
+$$
+
+$$
+\text{Si } x = 1, \text{ alors } \sin(\theta) = 1 \implies \theta = \frac{\pi}{2}
+$$
+
+En remplaçant `x` et `dx` dans l'intégrale, on obtient :
+
+$$
+A = \int_{0}^{\pi/2} \sqrt{1 - \sin^2(\theta)} \cdot \cos(\theta) \ d\theta
+$$
+
+Puisque `1 - sin²(θ) = cos²(θ)` et que `cos(θ) ≥ 0` sur l'intervalle `[0, π/2]`, l'intégrale se simplifie en :
+
+$$
+A = \int_{0}^{\pi/2} \cos^2(\theta) \, d\theta
+$$
+
+Pour résoudre cette intégrale, on utilise l'identité de l'angle double :
+
+$$
+\cos^2(\theta) = \frac{1 + \cos(2\theta)}{2}
+$$
+
+Le calcul final devient :
+
+$$
+\begin{aligned}
+A &= \int_{0}^{\pi/2} \frac{1 + \cos(2\theta)}{2} \, d\theta \\
+&= \frac{1}{2} \int_{0}^{\pi/2} (1 + \cos(2\theta)) \, d\theta \\
+&= \frac{1}{2} \left[ \theta + \frac{1}{2}\sin(2\theta) \right]_{0}^{\pi/2} \\
+&= \frac{\pi}{4}
+\end{aligned}
+$$
+
+Cette démonstration confirme la base théorique de notre projet : l'aire du quart de cercle unité est bien **π/4**.
 
 ## Structure du Projet
 
@@ -96,3 +180,6 @@ Cette méthode vous permet de faire tourner le projet directement depuis GitHub.
     !pip install -r requirements.txt && python main.py
     ```
 4.  Exécutez la cellule. Les résultats s'afficheront directement dans la sortie.
+
+
+this is some text i added

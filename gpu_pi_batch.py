@@ -1,43 +1,42 @@
-# gpu_pi_batch.py
-# minor comment - change 
+
+
 import time
 
+# On essaie d'importer CuPy et on définit une variable pour savoir si ça a marché.
 try:
     import cupy as cp
-except ImportError:
-    pass
+    cp.cuda.runtime.getDeviceCount()
+    CUPY_ET_GPU_DISPONIBLES = True
+except (ImportError, cp.cuda.runtime.CudaAPIError):
+    CUPY_ET_GPU_DISPONIBLES = False
 
-def estimate_pi_gpu_batch(total_points, batch_size):
+def estimer_pi_gpu_par_lots(total_simulations, taille_lot):
     """
-    Estime Pi en utilisant CuPy pour un calcul en parallèle sur le GPU,
-    optimisé pour la mémoire en travaillant "par lots" (batches).
+    Estime Pi sur GPU avec une méthode par lots.
+    Retourne l'estimation de Pi et le temps de calcul.
     """
-    print(f"\n--- 2. Calcul sur GPU 'par lots' sur {total_points:,} points ---")
+    # On vérifie si CuPy est disponible au début de la fonction.
+    if not CUPY_ET_GPU_DISPONIBLES:
+        # Si non, on s'arrête tout de suite.
+        print("Avertissement : CuPy ou un GPU/Driver compatible n'est pas disponible. Le calcul GPU par lots est ignoré.")
+        return None, float('inf')
+
+   
+    debut_chrono = time.perf_counter()
     
-    try:
-        cp.cuda.runtime.deviceSynchronize()
-        start_time = time.time()
+    total_points_dans_cercle = 0
+    nombre_de_lots = nombre_points // taille_lot
+    
+    for _ in range(nombre_de_lots):
+        points = cp.random.rand(taille_lot, 2)
+        distances_carre = points[:, 0]**2 + points[:, 1]**2
+        dedans_ce_lot = cp.sum(distances_carre <= 1)
+        total_points_dans_cercle += dedans_ce_lot
         
-        total_inside_circle = 0
-        num_batches = total_points // batch_size
-        
-        for _ in range(num_batches):
-            x_gpu = cp.random.rand(batch_size)
-            y_gpu = cp.random.rand(batch_size)
-            distances = x_gpu**2 + y_gpu**2
-            inside_this_batch = cp.sum(distances <= 1)
-            total_inside_circle += inside_this_batch
-            
-        pi_estimate_gpu = 4 * total_inside_circle / total_points
-        
-        cp.cuda.runtime.deviceSynchronize()
-        end_time = time.time()
-        
-        gpu_time = end_time - start_time
-        
-        print(f"Estimation de π (GPU par lots) ≈ {float(pi_estimate_gpu):.6f}")
-        print(f"Temps de calcul (GPU par lots) : {gpu_time:.4f} secondes")
-        return gpu_time
-    except NameError:
-        print("Erreur : CuPy n'est pas installé ou un GPU n'est pas disponible.")
-        return float('inf')
+    estimation_pi_gpu = 4 * total_points_dans_cercle / nombre_points
+    
+    cp.cuda.runtime.deviceSynchronize()
+    fin_chrono = time.perf_counter()
+    temps_gpu_batch = fin_chrono - debut_chrono
+    
+    return estimation_pi_gpu, temps_gpu_batch

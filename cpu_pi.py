@@ -16,7 +16,7 @@ def estimer_pi_cpu(nombre_points):
     points = np.random.rand(nombre_points, 2)
     
     # 2. Calcul vectorisé + compter les points à l'intérieur du cercle
-    distances_carre = points[:, 0]**2 + points[:, 1]**2
+    distances_carres = points[:, 0]**2 + points[:, 1]**2
     points_dans_cercle = np.sum(distances_carre <= 1)
     
     # 3. Estimation de Pi

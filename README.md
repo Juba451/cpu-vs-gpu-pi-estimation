@@ -161,5 +161,3 @@ Cette méthode vous permet de faire tourner le projet directement depuis GitHub.
     ```
 4.  Exécutez la cellule. Les résultats s'afficheront directement dans la sortie.
 
-
-this is some text i added

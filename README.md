@@ -13,16 +13,6 @@ On se base sur le rapport entre l'aire d'un quart de cercle de rayon 1 et l'aire
 
 Chaque lancer étant un calcul **indépendant**, ce problème est parfaitement adapté au **calcul parallèle** sur GPU.
 
-## Structure du Projet
-
-Le projet est organisé en plusieurs modules Python pour plus de clarté :
-
--   `cpu_pi.py`: Contient la fonction pour le calcul **séquentiel sur CPU**, utilisant une simple boucle `for`. C'est notre référence lente.
--   `gpu_pi_batch.py`: Contient la fonction pour le calcul **parallèle sur GPU** en utilisant la bibliothèque CuPy, avec une **optimisation par lots (batching)**.
--   `gpu_pi_optimized.py`: Contient la fonction **optimisée pour GPU** qui utilise un kernel CUDA personnalisé pour une performance maximale.
--   `main.py`: Le **programme principal** qui importe les fonctions des autres modules, les exécute dans l'ordre et affiche la comparaison finale des performances.
--   `requirements.txt`: Liste les bibliothèques nécessaires pour le projet.
-
 ## Les Trois Méthodes Comparées
 
 1.  **Version CPU (Séquentielle) :** Un code simple qui simule le lancer de chaque fléchette **une par une**. C'est la méthode la plus lente.

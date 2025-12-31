@@ -118,16 +118,18 @@ Temps de calcul (GPU par lots) : 0.4219 secondes
 Estimation de π (GPU Optimisé) ≈ 3.141913
 Temps de calcul (GPU Optimisé) : 0.0166 secondes
 
-==============================
-     TABLEAU DES RÉSULTATS
-==============================
-Temps CPU (boucle)           : 29.6060s
-Temps GPU (par lots)         : 0.4219s
-Temps GPU (optimisé)         : 0.0166s
-==============================
- Le GPU (par lots) est 70 fois plus rapide que le CPU.
- Le GPU (Optimisé) est 1783 fois plus rapide que le CPU.
-==============================
+==================================================
+           TABLEAU FINAL DES RÉSULTATS
+==================================================
+Nombre de points simulés : 10,000,000
+--------------------------------------------------
+Méthode CPU (lent)      : Temps: 2.3532s
+Méthode GPU (brute force) : Temps: 0.2035s
+Méthode GPU (optimisé)    : Temps: 0.0472s
+==================================================
+✅ Le GPU (brute force) est 12 fois plus rapide que le CPU.
+✅ Le GPU (optimisé) est 50 fois plus rapide que le CPU.
+==================================================
 
 
 

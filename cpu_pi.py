@@ -11,7 +11,7 @@ def estimer_pi_cpu(nombre_points):
     Note: chaque point (ou simulation) représente les coordonnées (x, y) d'une fléchette virtuelle
     """
     debut_chrono = time.perf_counter()
-   points_dans_cercle = 0
+    points_dans_cercle = 0
 
     for _ in range(nombre_points):
         x = random.random()

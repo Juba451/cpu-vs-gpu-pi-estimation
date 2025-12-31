@@ -105,19 +105,7 @@ Cette démonstration confirme la base théorique de notre projet : l'aire du qua
 3.  **GPU (Optimisé) :** Utilise une approche par "lots" (batching) pour optimiser l'utilisation de la mémoire du GPU.
 
 ## Résultats Obtenus
-
---- 1. Calcul sur CPU avec une boucle for sur 100,000,000 points ---
-Estimation de π (CPU) ≈ 3.141406
-Temps de calcul (CPU) : 29.6060 secondes
-
---- 2. Calcul sur GPU 'par lots' sur 100,000,000 points ---
-Estimation de π (GPU par lots) ≈ 3.141609
-Temps de calcul (GPU par lots) : 0.4219 secondes
-
---- 3. Calcul sur GPU Optimisé avec un Kernel CUDA sur 100,000,000 points ---
-Estimation de π (GPU Optimisé) ≈ 3.141913
-Temps de calcul (GPU Optimisé) : 0.0166 secondes
-
+```
 ==================================================
            TABLEAU FINAL DES RÉSULTATS
 ==================================================
@@ -130,8 +118,7 @@ Méthode GPU (optimisé)    : Temps: 0.0472s
 ✅ Le GPU (brute force) est 12 fois plus rapide que le CPU.
 ✅ Le GPU (optimisé) est 50 fois plus rapide que le CPU.
 ==================================================
-
-
+```
 
 
 ## Comment l'exécuter

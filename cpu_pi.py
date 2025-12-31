@@ -1,6 +1,6 @@
 
 
-import numpy as np
+import random
 import time
 
 def estimer_pi_cpu(nombre_points):

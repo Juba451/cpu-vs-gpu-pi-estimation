@@ -97,21 +97,12 @@ $$
 
 Cette démonstration confirme la base théorique de notre projet : l'aire du quart de cercle unité est bien **π/4**.
 
-## Structure du Projet
-
-Le projet est organisé en plusieurs modules Python pour plus de clarté :
-
--   `cpu_pi.py`: Contient la fonction pour le calcul **séquentiel sur CPU**, utilisant une simple boucle `for`. C'est notre référence lente.
--   `gpu_pi_batch.py`: Contient la fonction pour le calcul **parallèle sur GPU** en utilisant la bibliothèque CuPy, avec une **optimisation par lots (batching)**.
--   `gpu_pi_optimized.py`: Contient la fonction **optimisée pour GPU** qui utilise un kernel CUDA personnalisé pour une performance maximale.
--   `main.py`: Le **programme principal** qui importe les fonctions des autres modules, les exécute dans l'ordre et affiche la comparaison finale des performances.
--   `requirements.txt`: Liste les bibliothèques nécessaires pour le projet.
 
 ## Les Trois Méthodes Comparées
 
-1.  **Version CPU (Séquentielle) :** Un code simple qui simule le lancer de chaque fléchette **une par une**. C'est la méthode la plus lente.
-2.  **Version GPU "par Lots" (Parallèle) :** Cette version utilise CuPy pour traiter les points sur le GPU. Pour optimiser l'utilisation de la mémoire, elle fonctionne **par "lots"** : elle traite des millions de points en parallèle, répète l'opération plusieurs fois et additionne les résultats.
-3.  **Version GPU Optimisée (Kernel CUDA) :** Une version avancée où un **mini-programme (kernel)** est envoyé directement au GPU pour organiser le travail de la manière la plus efficace possible.
+1.  **CPU (Séquentiel) :** Une boucle `for` simple qui traite chaque fléchette l'une après l'autre. C'est notre référence lente.
+2.  **GPU (Brute Force) :** Utilise CuPy pour traiter toutes les fléchettes en parallèle sur le GPU en une seule fois.
+3.  **GPU (Optimisé) :** Utilise une approche par "lots" (batching) pour optimiser l'utilisation de la mémoire du GPU.
 
 ## Résultats Obtenus
 

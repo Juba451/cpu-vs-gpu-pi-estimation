@@ -1,0 +1,10 @@
+# Fichiers de cache de Visual Studio
+.vs/
+
+# Fichiers de cache Python
+__pycache__/
+*.pyc
+
+# Fichiers spécifiques à l'OS
+.DS_Store
+Thumbs.db

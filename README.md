@@ -19,6 +19,7 @@ Pour prouver que l'aire du quart de cercle est bien `π/4`, on peut la calculer 
 L'aire `A` que nous cherchons correspond à la surface sous la courbe de la fonction `y = sqrt(1-x²)` entre `x=0` et `x=1`, comme le montre ce graphe :
 
 ![Graphe de l'aire sous la courbe](images/aire_integrale.png)
+## Les Trois Méthodes Comparées
 
 Le calcul ci-dessous détaille comment résoudre l'intégrale correspondante.
 

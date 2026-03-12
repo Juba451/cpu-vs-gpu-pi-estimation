@@ -1,4 +1,4 @@
-# gpu_pi_optimized.py
+# gpu_pi_optimise.py
 import time
 try:
     import cupy as cp
@@ -16,8 +16,8 @@ def estimer_pi_gpu_optimise(nombre_points, taille_lot):
     
     for _ in range(nombre_de_lots):
         points = cp.random.rand(taille_lot, 2)
-        dist_sq = points[:, 0]**2 + points[:, 1]**2
-        dedans_ce_lot = cp.sum(dist_sq <= 1)
+        distances_carrees = points[:, 0]**2 + points[:, 1]**2
+        dedans_ce_lot = cp.sum(distances_carrees <= 1)
         total_points_dedans += dedans_ce_lot
         
     estimation_pi = 4 * total_points_dedans / nombre_points

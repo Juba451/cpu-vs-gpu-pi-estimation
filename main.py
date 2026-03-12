@@ -1,7 +1,7 @@
 # main.py
 from cpu_pi import estimer_pi_cpu
 from gpu_pi_bruteforce import estimer_pi_gpu_bruteforce
-from gpu_pi_optimized import estimer_pi_gpu_optimise
+from gpu_pi_optimise import estimer_pi_gpu_optimise
 
 def main():
     nombre_points = 10_000_000 # Nombre de fléchettes à simuler

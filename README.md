@@ -1,22 +1,34 @@
-# Mini-Projet : Comparaison de Performance CPU vs GPU
+# CPU vs GPU -- Estimation de π par Monte-Carlo
 
 Ce projet est une démonstration simple mais puissante de l'accélération fournie par un GPU (Graphics Processing Unit) par rapport à un CPU (Central Processing Unit) pour des tâches de calcul parallèle.
 
-## Le Problème : Estimer Pi (π) avec la Méthode de Monte-Carlo
+## Problème & Approche
 
-L'objectif est d'estimer la valeur de π sans la calculer directement, en utilisant une méthode probabiliste qui simule un jeu de lancer de fléchettes.
+L'estimation de π par Monte-Carlo repose sur un principe simple : en tirant aléatoirement des points dans un carré unitaire, la proportion de points tombant dans le quart de cercle inscrit converge vers π/4.
 
-### La Théorie
+## Principe
 
-On se base sur le rapport entre l'aire d'un quart de cercle de rayon 1 et l'aire d'un carré de côté 1. En lançant des milliers de "fléchettes" (points aléatoires) sur cette cible, on peut estimer π avec la formule : `π ≈ 4 * (nombre de points dans le cercle / nombre total de points)`.
+On génère des points aléatoires dans le carré unité $[0, 1]^2$. Comme un lancer de fléchettes.
 
-Chaque lancer étant un calcul **indépendant**, ce problème est parfaitement adapté au **calcul parallèle** sur GPU.
+Un point appartient au quart de cercle unité lorsque :
+
+$$x^2 + y^2 \le 1$$
+
+La proportion de points situés dans le cercle permet alors d'estimer π.
+
+Si $(X, Y)$ est uniforme dans $[0, 1]^2$,
+
+$$P(X^2 + Y^2 \le 1) = \frac{\text{aire du quart de cercle}}{\text{aire du carré}}$$
+
+Donc
+
+$$P(X^2 + Y^2 \le 1) = \frac{\pi}{4}$$
 
 ### La Démonstration Mathématique (Solution Analytique)
 
 Pour prouver que l'aire du quart de cercle est bien `π/4`, on peut la calculer de manière analytique en utilisant une intégrale. C'est la méthode "exacte", par opposition à la méthode "estimée" de Monte-Carlo.
 
-L'aire `A` que nous cherchons correspond à la surface sous la courbe de la fonction `y = sqrt(1-x²)` entre `x=0` et `x=1`, comme le montre ce graphe :
+L'aire `A` que nous cherchons correspond à la surface sous la courbe de la fonction $y = \sqrt{1-x^2}$ entre $x=0$ et $x=1$, comme le montre ce graphe :
 
 ![Graphe de l'aire sous la courbe](images/aire_integrale.png)
 
@@ -97,75 +109,67 @@ $$
 
 Cette démonstration confirme la base théorique de notre projet : l'aire du quart de cercle unité est bien **π/4**.
 
+## Les 3 implémentations comparées
 
-## Les Trois Méthodes Comparées
+| Méthode | Description |
+| :--- | :--- |
+| **CPU séquentiel** | Boucle `for` Python, un point à la fois |
+| **GPU brute force** | Génération vectorisée via CuPy, en un seul batch |
+| **GPU optimisé** | Batching par lots pour réduire la pression mémoire |
 
-1.  **CPU (Séquentiel) :** Une boucle `for` simple qui traite chaque fléchette l'une après l'autre. C'est notre référence lente.
-2.  **GPU (Brute Force) :** Utilise CuPy pour traiter toutes les fléchettes en parallèle sur le GPU en une seule fois.
-3.  **GPU (Optimisé) :** Utilise une approche par "lots" (batching) pour optimiser l'utilisation de la mémoire du GPU.
+**Pourquoi CuPy ?** CuPy s'utilise exactement comme NumPy, mais les calculs tournent sur le GPU.
 
-## Résultats Obtenus
+**Pourquoi l'approche par lots ?** Le GPU travaille mieux sur des lots maîtrisés que sur un bloc gigantesque.
 
-```text
---- 1. Calcul sur CPU avec une boucle for sur 100,000,000 points ---
-Estimation de π (CPU) ≈ 3.141406
-Temps de calcul (CPU) : 29.6060 secondes
+## Résultats :
 
---- 2. Calcul sur GPU (Brute Force) sur 100,000,000 points ---
-Estimation de π (GPU brute force) ≈ 3.141609
-Temps de calcul (GPU brute force) : 0.4219 secondes
+| Méthode | Temps | Estimation |
+| :--- | :--- | :--- |
+| CPU (boucle Python) | 29.6 s | 3.141406 |
+| GPU (brute force) | 0.42 s | 3.141609 |
+| GPU (optimisé) | 0.016 s | 3.141913 |
 
---- 3. Calcul sur GPU (Optimisé) par lots sur 100,000,000 points ---
-Estimation de π (GPU optimisé) ≈ 3.141913
-Temps de calcul (GPU optimisé) : 0.0166 secondes
-
-==============================
-     TABLEAU DES RÉSULTATS
-==============================
-Temps CPU (boucle)           : 29.6060s
-Temps GPU (brute force)      : 0.4219s
-Temps GPU (optimisé)         : 0.0166s
-==============================
-✅ Le GPU (brute force) est 70 fois plus rapide que le CPU.
+✅ Le GPU (brute force) est 70 fois plus rapide que le CPU.  
 ✅ Le GPU (optimisé) est 1783 fois plus rapide que le CPU.
-==============================
+
+## Exécution
+
+Un GPU Nvidia compatible CUDA est nécessaire.
+
+### Exécution en local
+
+Cloner le dépôt :
+```bash
+git clone https://github.com/Juba451/cpu-vs-gpu-pi-estimation.git
+cd cpu-vs-gpu-pi-estimation
 ```
-## Comment l'exécuter
 
-Ce projet est conçu pour être exécuté dans un environnement disposant d'un GPU Nvidia et de CUDA.
+Installer les dépendances :
+```bash
+pip install -r requirements.txt
+```
 
-### Méthode 1 : En local (si vous avez un GPU Nvidia)
+Lancer le programme :
+```bash
+python main.py
+```
 
-1.  Clonez ce dépôt sur votre machine :
-    ```bash
-    git clone https://github.com/Juba451/cpu-vs-gpu-pi-estimation.git
-    cd cpu-vs-gpu-pi-estimation
-    ```
-2.  Installez les dépendances nécessaires :
-    ```bash
-    pip install -r requirements.txt
-    ```
-3.  Lancez le script principal :
-    ```bash
-    python main.py
-    ```
+### Exécution sur Google Colab
 
-### Méthode 2 : Sur Google Colab (recommandé et gratuit)
+1. Ouvrir un [notebook sur Google Colab](https://colab.research.google.com).
+2. Activer le GPU : `Runtime` $\rightarrow$ `Change runtime type` $\rightarrow$ `GPU`
 
-Cette méthode vous permet de faire tourner le projet directement depuis GitHub.
+Puis exécuter :
 
-1.  Ouvrez un [nouveau notebook sur Google Colab](https://colab.research.google.com).
-2.  **Activez le GPU :** Allez dans `Runtime` -> `Change runtime type` et sélectionnez `GPU` comme "Hardware accelerator".
-3.  Dans une seule cellule de code, copiez-collez les commandes suivantes pour cloner le projet et l'exécuter :
+```python
+# 1. Cloner le dépôt GitHub
+!git clone https://github.com/Juba451/cpu-vs-gpu-pi-estimation.git
 
-    ```python
-    # 1. Cloner le dépôt GitHub
-    !git clone https://github.com/Juba451/cpu-vs-gpu-pi-estimation.git
+# 2. Se déplacer dans le dossier du projet
+%cd cpu-vs-gpu-pi-estimation
 
-    # 2. Se déplacer dans le dossier du projet
-    %cd cpu-vs-gpu-pi-estimation
+# 3. Installer les dépendances et lancer le script principal
+!pip install -r requirements.txt && python main.py
+```
 
-    # 3. Installer les dépendances et lancer le script principal
-    !pip install -r requirements.txt && python main.py
-    ```
-4.  Exécutez la cellule. Les résultats s'afficheront directement dans la sortie.
+Les résultats apparaissent directement dans la sortie de la cellule.

@@ -1,14 +1,7 @@
 # gpu_pi_optimise.py
 import time
-try:
-    import cupy as cp
-    cp.cuda.runtime.getDeviceCount()
-    GPU_DISPONIBLE = True
-except:
-    GPU_DISPONIBLE = False
 
-def estimer_pi_gpu_optimise(nombre_points, taille_lot):
-    if not GPU_DISPONIBLE: return None, float('inf')
+def estimer_pi_gpu_optimise(cp, nombre_points, taille_lot):
     
     debut_chrono = time.perf_counter()
     total_points_dedans = 0

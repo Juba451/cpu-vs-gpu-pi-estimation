@@ -1,14 +1,7 @@
 # gpu_pi_bruteforce.py
 import time
-try:
-    import cupy as cp
-    cp.cuda.runtime.getDeviceCount()
-    GPU_DISPONIBLE = True
-except:
-    GPU_DISPONIBLE = False
 
-def estimer_pi_gpu_bruteforce(nombre_points):
-    if not GPU_DISPONIBLE: return None, float('inf')
+def estimer_pi_gpu_bruteforce(cp, nombre_points):
     
     debut_chrono = time.perf_counter()
     points = cp.random.rand(nombre_points, 2)

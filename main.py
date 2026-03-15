@@ -15,8 +15,8 @@ except:
     print("Pas de GPU détecté, on va juste faire le calcul CPU.\n")
 
 # --- paramètres ---
-N = 10_000_000    # nombre de points total
-taille_lot = 1_000_000  # pour la version par lots
+N = 100_000_000    # nombre de points total
+taille_lot = 10_000_000  # pour la version par lots
 
 print("Début de la comparaison...\n")
 

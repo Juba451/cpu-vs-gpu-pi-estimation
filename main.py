@@ -1,9 +1,9 @@
 # main.py
 from cpu_pi import estimer_pi_cpu
 from gpu_pi_bruteforce import estimer_pi_gpu_bruteforce
-from gpu_pi_optimized import estimer_pi_gpu_optimise
+from gpu_pi_optimise import estimer_pi_gpu_optimise
 
-# --- Détection GPU (une seule fois, ici) ---
+# --- Détection GPU ---
 try:
     import cupy as cp
     cp.cuda.runtime.getDeviceCount()
@@ -11,7 +11,7 @@ try:
 except Exception:
     cp = None
     GPU_DISPONIBLE = False
-    print("⚠️  Aucun GPU détecté. Les méthodes GPU seront ignorées.\n")
+    print("  Aucun GPU détecté. Les méthodes GPU seront ignorées.\n")
 
 def main():
     nombre_points = 10_000_000 # Nombre de fléchettes à simuler

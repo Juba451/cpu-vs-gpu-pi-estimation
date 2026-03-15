@@ -1,52 +1,52 @@
-# main.py
+import time
 from cpu_pi import estimer_pi_cpu
 from gpu_pi_bruteforce import estimer_pi_gpu_bruteforce
 from gpu_pi_optimise import estimer_pi_gpu_optimise
 
-# --- Détection GPU ---
+# on vérifie si un GPU est disponible avant de lancer les calculs
+gpu_dispo = False
+cp = None
+
 try:
     import cupy as cp
     cp.cuda.runtime.getDeviceCount()
-    GPU_DISPONIBLE = True
-except Exception:
-    cp = None
-    GPU_DISPONIBLE = False
-    print("  Aucun GPU détecté. Les méthodes GPU seront ignorées.\n")
+    gpu_dispo = True
+except:
+    print("Pas de GPU détecté, on va juste faire le calcul CPU.\n")
 
-def main():
-    nombre_points = 10_000_000 # Nombre de fléchettes à simuler
-    taille_lot = 1_000_000   # Taille des lots pour la version optimisée
+# --- paramètres ---
+N = 10_000_000    # nombre de points total
+taille_lot = 1_000_000  # pour la version par lots
 
-    print("Lancement de la comparaison...\n")
+print("Début de la comparaison...\n")
 
-    # --- Calculs ---
-    pi_cpu, temps_cpu = estimer_pi_cpu(nombre_points)
+# calcul CPU
+pi_cpu, t_cpu = estimer_pi_cpu(N)
+print(f"CPU  -> pi ≈ {float(pi_cpu):.6f}  ({t_cpu:.4f}s)")
 
-    if GPU_DISPONIBLE:
-        pi_gpu_brute, temps_gpu_brute = estimer_pi_gpu_bruteforce(cp, nombre_points)
-        pi_gpu_opt, temps_gpu_opt = estimer_pi_gpu_optimise(cp, nombre_points, taille_lot)
-    else:
-        pi_gpu_brute, temps_gpu_brute = None, float('inf')
-        pi_gpu_opt, temps_gpu_opt = None, float('inf')
+# calculs GPU si disponible
+if gpu_dispo:
+    pi_brute, t_brute = estimer_pi_gpu_bruteforce(cp, N)
+    print(f"GPU brute force -> pi ≈ {float(pi_brute):.6f}  ({t_brute:.4f}s)")
 
-    # --- Affichage ---
-    print("\n" + "="*50)
-    print("           TABLEAU FINAL DES RÉSULTATS")
-    print("="*50)
-    print(f"Nombre de points simulés : {nombre_points:,}")
-    print("-" * 50)
-    print(f"Méthode CPU (lent)        : Temps: {temps_cpu:.4f}s")
-    if temps_gpu_brute != float('inf'):
-        print(f"Méthode GPU (brute force) : Temps: {temps_gpu_brute:.4f}s")
-    if temps_gpu_opt != float('inf'):
-        print(f"Méthode GPU (optimisé)    : Temps: {temps_gpu_opt:.4f}s")
-    print("="*50)
+    pi_opt, t_opt = estimer_pi_gpu_optimise(cp, N, taille_lot)
+    print(f"GPU optimisé    -> pi ≈ {float(pi_opt):.6f}  ({t_opt:.4f}s)")
 
-    if temps_gpu_brute != float('inf') and temps_gpu_brute > 0:
-        print(f"✅ Le GPU (brute force) est {temps_cpu / temps_gpu_brute:.0f} fois plus rapide que le CPU.")
-    if temps_gpu_opt != float('inf') and temps_gpu_opt > 0:
-        print(f"✅ Le GPU (optimisé) est {temps_cpu / temps_gpu_opt:.0f} fois plus rapide que le CPU.")
-    print("="*50)
+# affichage des résultats
+print("\n" + "="*45)
+print("            RÉSULTATS")
+print("="*45)
+print(f"  CPU          : {t_cpu:.4f}s")
 
-if __name__ == "__main__":
-    main()
+if gpu_dispo:
+    print(f"  GPU brute    : {t_brute:.4f}s")
+    print(f"  GPU optimisé : {t_opt:.4f}s")
+
+print("="*45)
+
+if gpu_dispo:
+    # combien de fois le GPU est plus rapide ?
+    ratio_brute = t_cpu / t_brute
+    ratio_opt   = t_cpu / t_opt
+    print(f"Le GPU brute force est {ratio_brute:.0f}x plus rapide que le CPU")
+    print(f"Le GPU optimisé est {ratio_opt:.0f}x plus rapide que le CPU")

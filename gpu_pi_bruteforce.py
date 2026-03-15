@@ -1,16 +1,23 @@
-# gpu_pi_bruteforce.py
 import time
 
 def estimer_pi_gpu_bruteforce(cp, nombre_points):
-    """
-    Version GPU naive : génère tous les points d'un seul coup en mémoire GPU.
-    Rapide, mais peut poser des problèmes si le nombre de points est trop grand.
-    """
-    debut_chrono = time.perf_counter()
+    # on génère tous les points d'un seul coup sur le GPU (version simple)
+    debut = time.perf_counter()
+
+    # deux colonnes : x et y pour chaque point
     points = cp.random.rand(nombre_points, 2)
-    distances_carrees = points[:, 0]**2 + points[:, 1]**2
-    points_dans_cercle = cp.sum(distances_carrees <= 1)
-    estimation_pi = 4 * points_dans_cercle / nombre_points
+
+    x = points[:, 0]
+    y = points[:, 1]
+    dist = x**2 + y**2
+
+    # on compte les points qui sont dans le cercle unité
+    dans_cercle = cp.sum(dist <= 1)
+
+    pi = 4 * dans_cercle / nombre_points
+
+    # on attend que le GPU finisse avant de mesurer le temps
     cp.cuda.runtime.deviceSynchronize()
-    fin_chrono = time.perf_counter()
-    return estimation_pi, (fin_chrono - debut_chrono)
+    fin = time.perf_counter()
+
+    return pi, fin - debut

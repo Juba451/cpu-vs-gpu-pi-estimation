@@ -1,22 +1,23 @@
-# gpu_pi_optimise.py
 import time
 
 def estimer_pi_gpu_optimise(cp, nombre_points, taille_lot):
-    """
-    Version GPU optimisée : traite les points par lots pour mieux gérer la mémoire.
-    Plus stable que la brute force sur de gros volumes de points.
-    """
-    debut_chrono = time.perf_counter()
-    total_points_dedans = 0
-    nombre_de_lots = nombre_points // taille_lot
-    
-    for _ in range(nombre_de_lots):
+    # même chose que la brute force mais on découpe en petits lots
+    # pour pas exploser la mémoire du GPU
+
+    debut = time.perf_counter()
+    total_dans_cercle = 0
+    nb_lots = nombre_points // taille_lot
+
+    for i in range(nb_lots):
         points = cp.random.rand(taille_lot, 2)
-        distances_carrees = points[:, 0]**2 + points[:, 1]**2
-        dedans_ce_lot = cp.sum(distances_carrees <= 1)
-        total_points_dedans += dedans_ce_lot
-        
-    estimation_pi = 4 * total_points_dedans / nombre_points
+        x = points[:, 0]
+        y = points[:, 1]
+        dist = x**2 + y**2
+        total_dans_cercle += cp.sum(dist <= 1)
+
+    pi = 4 * total_dans_cercle / nombre_points
+
     cp.cuda.runtime.deviceSynchronize()
-    fin_chrono = time.perf_counter()
-    return estimation_pi, (fin_chrono - debut_chrono)
+    fin = time.perf_counter()
+
+    return pi, fin - debut

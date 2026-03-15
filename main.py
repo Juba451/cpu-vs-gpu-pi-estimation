@@ -14,8 +14,8 @@ except Exception:
     print("  Aucun GPU détecté. Les méthodes GPU seront ignorées.\n")
 
 def main():
-    nombre_points = 10_000_000 # Nombre de fléchettes à simuler
-    taille_lot = 1_000_000   # Taille des lots pour la version optimisée
+    nombre_points = 100_000_000 # Nombre de fléchettes à simuler
+    taille_lot = 10_000_000   # Taille des lots pour la version optimisée
 
     print("Lancement de la comparaison...\n")
 

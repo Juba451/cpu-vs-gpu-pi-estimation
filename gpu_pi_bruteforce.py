@@ -2,7 +2,10 @@
 import time
 
 def estimer_pi_gpu_bruteforce(cp, nombre_points):
-    
+    """
+    Version GPU naive : génère tous les points d'un seul coup en mémoire GPU.
+    Rapide, mais peut poser des problèmes si le nombre de points est trop grand.
+    """
     debut_chrono = time.perf_counter()
     points = cp.random.rand(nombre_points, 2)
     distances_carrees = points[:, 0]**2 + points[:, 1]**2

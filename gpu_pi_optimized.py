@@ -2,7 +2,10 @@
 import time
 
 def estimer_pi_gpu_optimise(cp, nombre_points, taille_lot):
-    
+    """
+    Version GPU optimisée : traite les points par lots pour mieux gérer la mémoire.
+    Plus stable que la brute force sur de gros volumes de points.
+    """
     debut_chrono = time.perf_counter()
     total_points_dedans = 0
     nombre_de_lots = nombre_points // taille_lot

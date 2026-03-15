@@ -6,10 +6,8 @@ import random
 
 def estimer_pi_cpu(nombre_points):
     """
-    Estime Pi en utilisant NumPy pour un calcul vectorisé sur le CPU.
-    Retourne l'estimation de Pi et le temps de calcul.
-    
-    Note: chaque point (ou simulation) représente les coordonnées (x, y) d'une fléchette virtuelle
+    Méthode de référence (lente) : boucle Python classique, un point à la fois.
+    Chaque point est une fléchette virtuelle tirée aléatoirement dans le carré [0,1]².
     """
     debut_chrono = time.perf_counter()
     points_dans_cercle = 0
